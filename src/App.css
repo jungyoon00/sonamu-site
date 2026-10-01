@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-content {
+  padding-top: 60px; /* navbar 높이만큼 여백 */
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.section:nth-child(odd) {
+  background-color: #f9f9f9;
+}

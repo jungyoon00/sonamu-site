@@ -1,0 +1,146 @@
+.contact-page {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.contact-page-hero {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.contact-page-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  color: var(--color-gray);
+  margin-bottom: 20px;
+}
+
+.contact-page-title {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.contact-page-desc {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--color-gray);
+}
+
+/* 채널 카드 */
+.contact-channels {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background-color: var(--color-line);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.channel-card {
+  background-color: var(--color-bg);
+  padding: 56px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.channel-card:hover {
+  background-color: #f5f5f5;
+}
+
+.channel-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  margin-bottom: 24px;
+  color: var(--color-text);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.channel-card:hover .channel-icon {
+  border-color: var(--color-text);
+  transform: translateY(-4px);
+}
+
+.channel-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.channel-card p {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  min-height: 42px;
+}
+
+.channel-link {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  text-decoration: none;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--color-text);
+  padding-bottom: 2px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.channel-link:hover {
+  opacity: 0.6;
+}
+
+.channel-copy {
+  font-family: var(--font-sans);
+}
+
+/* 동아리방 위치 */
+.contact-location {
+  padding: 120px 24px 140px;
+  text-align: center;
+}
+
+.contact-location-label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--color-gray);
+}
+
+.contact-location-title {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  margin: 20px 0 16px;
+}
+
+.contact-location-desc {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--color-gray);
+}
+
+/* 반응형: 화면 좁을 때 세로로 쌓기 */
+@media (max-width: 720px) {
+  .contact-channels {
+    grid-template-columns: 1fr;
+  }
+}
