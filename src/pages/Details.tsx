@@ -71,7 +71,7 @@ function Details(): JSX.Element {
         <Reveal>
           <span className='details-label'>TEAM</span>
           <h2 className='details-heading'>팀 구성</h2>
-          <p className='details-desx'>
+          <p className='details-desc'>
             10명씩 A팀 · B팀으로 나뉘며, 면접 후 세션의 취향에 맞추어 배정됩니다.
             동시에 선배 기수 10명 · 신입 기수 10명으로도 나뉘며 결과적으로 총 4개 팀이 구성됩니다.
           </p>
@@ -149,7 +149,7 @@ function Details(): JSX.Element {
         <Reveal>
           <span className='details-label'>LOCATION</span>
           <h2 className='details-heading'>동아리방</h2>
-          <p className='dtails-desc'>
+          <p className='details-desc'>
             사회대 신양학술정보관 3층에 위치해 있습니다.
           </p>
         </Reveal>

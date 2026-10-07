@@ -144,3 +144,17 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 768px) {
+  .contact-page-title {
+    font-size: 2rem;
+  }
+
+  .channel-card {
+    padding: 40px 24px;
+  }
+
+  .contact-location {
+    padding: 80px 24px 100px;
+  }
+}

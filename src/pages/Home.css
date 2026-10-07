@@ -154,3 +154,46 @@
   border-color: var(--color-text);
   opacity: 0.7;
 }
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
+  .intro {
+    padding: 80px 24px;
+  }
+
+  .intro-title {
+    font-size: 1.6rem;
+  }
+
+  .highlight {
+    flex-direction: column;
+    gap: 48px;
+    padding: 60px 24px 100px;
+  }
+
+  .home-contact {
+    padding: 80px 24px 60px;
+  }
+
+  .contact-socials {
+    display: flex;
+    flex-direction: row; /* column 대신 row 유지 */
+    justify-content: center;
+    align-items: center;
+    gap: 32px; /* 화면 좁아진 만큼 간격도 살짝 줄임 */
+    flex-wrap: nowrap; /* 줄바꿈 방지 */
+  }
+
+  .social-link {
+    font-size: 0.85rem; /* 글자 크기를 살짝 줄여 폭 확보 */
+  }
+}
+
+@media (max-width: 360px) {
+  .contact-socials {
+    gap: 20px;
+  }
+}

@@ -17,17 +17,33 @@ function PasswordGate({ children }: PasswordGateProps): JSX.Element {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+  
+    if (loading) return;
+
+    if (!password) {
+      setError('비밀번호를 입력해주세요.');
+      return;
+    }
+
     setLoading(true);
     setError('');
-    const ok = await verifyPassword(password);
-    setLoading(false);
 
-    if (ok) {
-      sessionStorage.setItem('sonamu_blog_auth', 'true');
+    try {
+      const ok = await verifyPassword(password);
+
+      if (!ok) {
+        setError('인증에 실패했습니다. 비밀번호와 연결 상태를 확인해주세요.');
+        return;
+      }
+
       sessionStorage.setItem('sonamu_blog_password', password);
+      sessionStorage.setItem('sonamu_blog_auth', 'true');
+
       setAuthorized(true);
-    } else {
-      setError('비밀번호가 올바르지 않습니다.');
+    } catch {
+      setError('인증을 완료하지 못했습니다. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -49,7 +65,7 @@ function PasswordGate({ children }: PasswordGateProps): JSX.Element {
           {loading ? '확인 중...' : '확인'}
         </button>
       </form>
-      {error && <p className="gate-error">{error}</p>}
+      {error && <p className="gate-error" role='alert'>{error}</p>}
     </div>
   );
 }

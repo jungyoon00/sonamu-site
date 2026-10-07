@@ -214,3 +214,31 @@
   opacity: 0.5;
   cursor: default;
 }
+
+.blog-action-link:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .blog-title {
+    font-size: 2rem;
+  }
+
+  .blog-hero {
+    padding: 72px 24px 48px;
+  }
+
+  .blog-card-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .blog-detail-title {
+    font-size: 1.6rem;
+  }
+
+  .blog-write-form {
+    gap: 12px;
+  }
+}

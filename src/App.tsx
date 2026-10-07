@@ -8,6 +8,7 @@ import Blog from './pages/Blog';
 import BlogWrite from './pages/BlogWrite';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 function App(): JSX.Element {
@@ -21,8 +22,10 @@ function App(): JSX.Element {
           <Route path="/details" element={<Details />} />
           <Route path="/blog" element={<Blog />} />
           <Route path='/blog/write' element={<BlogWrite />} />
+          <Route path='/blog/edit/:id' element={<BlogWrite />} />
           <Route path='/blog/:id' element={<BlogPost />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
     </>

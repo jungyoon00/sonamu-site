@@ -66,7 +66,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: var(--navbar-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -116,4 +116,99 @@
 
 .navbar-menu a:hover::after {
   width: 100%;
+}
+
+/* 햄버거 버튼 - 기본적으로 숨김 */
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.navbar-toggle span {
+  display: block;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--color-text);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* 열렸을 때 X 모양으로 변형 */
+.navbar-toggle.open span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.navbar-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar-toggle.open span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+.navbar-toggle:focus-visible,
+.navbar-mobile-menu a:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 4px;
+}
+
+/* 모바일 전체화면 메뉴 - 기본적으로 화면 밖에 숨김 */
+.navbar-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(100%);
+  transition: transform 0.4s ease;
+  z-index: 1050;
+}
+
+.navbar-mobile-menu.open {
+  transform: translateX(0);
+}
+
+.navbar-mobile-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  text-align: center;
+}
+
+.navbar-mobile-menu a {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: 0.05em;
+}
+
+/* 768px 이하에서 데스크톱 메뉴 숨기고 햄버거 표시 */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 24px;
+  }
+
+  .navbar-menu {
+    display: none;
+  }
+
+  .navbar-toggle {
+    display: flex;
+  }
 }

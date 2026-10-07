@@ -5,7 +5,7 @@
 }
 
 .page-content {
-  padding-top: 60px; /* navbar 높이만큼 여백 */
+  padding-top: var(--navbar-height);
 }
 
 .section {

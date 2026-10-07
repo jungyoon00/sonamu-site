@@ -172,3 +172,30 @@
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .about-story,
+  .about-values,
+  .about-history {
+    padding: 60px 24px;
+  }
+
+  .about-values {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .history-row {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .history-year {
+    min-width: auto;
+  }
+}
