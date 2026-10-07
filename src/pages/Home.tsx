@@ -11,7 +11,20 @@ function Home(): JSX.Element {
         <h1 className='hero-title'>
           서울대학교 사회대 밴드, 소나무
         </h1>
-        <Link to="/about" className="hero-cta">더 알아보기</Link>
+
+        <div className='hero-actions'>
+          <Link to="/about" className="hero-cta">더 알아보기</Link>
+
+          <a
+            href='https://www.youtube.com/channel/UC7lLQ3-ffpyvkDq0yJGBpqw'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='hero-cta'
+          >
+            공연 영상 보기 ↗
+            <span className='hero-sr-only'> (새 탭에서 열림)</span>
+          </a>
+        </div>
       </section>
 
       <section className='intro'>
