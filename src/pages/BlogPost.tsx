@@ -5,6 +5,12 @@ import { fetchPostById, deletePost } from '../api/blog';
 import type { BlogPost as BlogPostType } from '../types/blog';
 import './Blog.css';
 
+type PostLoadResult = {
+  id: string;
+  post: BlogPostType | null;
+  error: string | null;
+};
+
 function formatDate(iso: string): string {
   const d = new Date(iso);
   return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
@@ -13,47 +19,37 @@ function formatDate(iso: string): string {
 function BlogPost(): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [post, setPost] = useState<BlogPostType | null>(null);
-  const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
-  const [loadError, setLoadError] = useState('');
+
+  const [postLoad, setPostLoad] = useState<PostLoadResult | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
-    setLoading(true);
-    setLoadError('');
-    setPost(null);
+    if (!id) return;
 
-    if (!id) {
-      setLoadError('게시글 주소가 올바르지 않습니다.');
-      setLoading(false);
-      return;
-    }
-
-    fetchPostById(id)
-      .then((found) => {
+    const loadPost = async () => {
+      try {
+        const found = await fetchPostById(id);
         if (cancelled) return;
 
-        if (!found) {
-          setLoadError('게시글을 불러올 수 없습니다.');
-          return;
+        setPostLoad({
+          id,
+          post: found,
+          error: found ? null : '게시글을 불러올 수 없습니다.',
+        });
+      } catch {
+        if (!cancelled) {
+          setPostLoad({
+            id,
+            post: null,
+            error: '게시글을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'
+          })
         }
+      }
+    };
 
-        setPost(found);
-      })
-      .catch(() => {
-        if (!cancelled) {
-          setLoadError(
-            '게시글을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.'
-          );
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      });
+    void loadPost();
 
     return () => {
       cancelled = true;
@@ -93,8 +89,43 @@ function BlogPost(): JSX.Element {
     }
   };
 
-  if (loading) return <p className="blog-empty">불러오는 중...</p>;
-  if (!post) return <p className="blog-empty">글을 찾을 수 없습니다.</p>;
+  if (!id) {
+    return (
+      <div className='blog-detail'>
+        <div className='blog-detail-inner'>
+          <p className='blog-empty' role='alert'>
+            게시글 주소가 올바르지 않습니다.
+          </p>
+          <Link to="/blog" className='blog-action-link'>
+            목록으로
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const currentLoad = postLoad?.id === id ? postLoad : null;
+
+  if (!currentLoad) {
+    return <p className='blog-empty' role='status'>불러오는 중...</p>;
+  }
+
+  if (currentLoad.error || !currentLoad.post) {
+    return (
+      <div className='blog-detail'>
+        <div className='blog-detail-inner'>
+          <p className='blog-empty' role='alert'>
+            {currentLoad.error || '글을 찾을 수 없습니다.'}
+          </p>
+          <Link to="/blog" className='blog-action-link'>
+            목록으로
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const post = currentLoad.post;
 
   return (
     <div className="blog-detail">
