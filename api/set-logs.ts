@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { isMemberSessionValid } from './_lib/member-session';
+import { isMemberSessionValid } from './_lib/member-session.js';
 
 function json(
   body: unknown,

@@ -8,7 +8,7 @@ import {
   getSessionSecret,
   isMemberSessionValid,
   MEMBER_SESSION_COOKIE,
-} from './_lib/member-session';
+} from './_lib/member-session.js';
 
 
 const SESSION_DURATION_MS = 8 * 60 * 60 * 1000;

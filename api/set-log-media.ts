@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import { createClient } from '@supabase/supabase-js';
-import { isMemberSessionValid } from './_lib/member-session';
+import { isMemberSessionValid } from './_lib/member-session.js';
 
 const BUCKET = 'set-log-media';
 const MB = 1024 * 1024;
