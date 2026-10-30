@@ -16,5 +16,11 @@
         }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cleanup-set-logs",
+      "schedule": "0 0 * * *"
+    }
   ]
 }

@@ -117,3 +117,7 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: '정리 작업을 완료하지 못했습니다.' }, 500);
   }
 }
+
+export async function GET(request: Request): Promise<Response> {
+    return POST(request);
+}
