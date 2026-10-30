@@ -5,6 +5,7 @@ import {
   fetchSetLogs,
 } from '../api/setLogs';
 import type { SetLogEntry } from '../api/setLogs';
+import './SetLog.css';
 
 const ALLOWED_TYPES = new Set([
   'image/jpeg',

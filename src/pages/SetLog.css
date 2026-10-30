@@ -1,0 +1,168 @@
+.set-logs-page {
+  width: min(100% - 32px, 760px);
+  margin: 0 auto;
+  padding: 56px 0 80px;
+  color: #171717;
+}
+
+.set-logs-heading {
+  margin-bottom: 32px;
+}
+
+.set-logs-heading .members-eyebrow {
+  margin: 0 0 10px;
+  color: #777;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.set-logs-heading h2 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.06em;
+}
+
+.set-logs-heading > p:last-child {
+  max-width: 560px;
+  margin: 12px 0 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.set-logs-form,
+.set-log-card {
+  border: 1px solid #dedede;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.set-logs-form {
+  display: grid;
+  gap: 12px;
+  padding: 24px;
+}
+
+.set-logs-form label {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.set-logs-form textarea,
+.set-logs-form input[type="file"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d6d6d6;
+  border-radius: 9px;
+  background: #fff;
+  color: #171717;
+  font: inherit;
+}
+
+.set-logs-form textarea {
+  min-height: 110px;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.set-logs-form textarea:focus,
+.set-logs-form input[type="file"]:focus-visible {
+  outline: 2px solid #171717;
+  outline-offset: 2px;
+}
+
+.set-logs-form input[type="file"] {
+  padding: 10px;
+  font-size: 13px;
+}
+
+.set-logs-file-name {
+  overflow-wrap: anywhere;
+  margin: 0;
+  color: #666;
+  font-size: 12px;
+}
+
+.set-logs-form button {
+  min-height: 46px;
+  margin-top: 8px;
+  border: 1px solid #171717;
+  border-radius: 9px;
+  background: #171717;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.set-logs-form button:hover:not(:disabled) {
+  background: #3a3a3a;
+}
+
+.set-logs-form button:disabled {
+  border-color: #ccc;
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.set-logs-list {
+  margin-top: 48px;
+}
+
+.set-logs-list h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.set-log-card {
+  margin-top: 12px;
+  padding: 20px;
+}
+
+.set-log-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #777;
+  font-size: 12px;
+}
+
+.set-log-message {
+  margin: 16px 0;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.set-log-media {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: #f3f3f3;
+  object-fit: contain;
+}
+
+@media (max-width: 600px) {
+  .set-logs-page {
+    width: min(100% - 24px, 760px);
+    padding: 36px 0 56px;
+  }
+
+  .set-logs-form,
+  .set-log-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .set-log-meta {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
