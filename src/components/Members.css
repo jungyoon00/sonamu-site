@@ -1,0 +1,243 @@
+.members-gate-page {
+  min-height: 65vh;
+  display: grid;
+  place-items: center;
+  padding: 48px 20px;
+}
+
+.members-gate-card {
+  width: min(100%, 440px);
+  padding: clamp(28px, 6vw, 44px);
+  border: 1px solid #dedede;
+  border-radius: 24px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 18px 48px rgb(0 0 0 / 7%);
+}
+
+.members-gate-card h1 {
+  margin: 0 0 10px;
+  color: #111;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  line-height: 1.25;
+}
+
+.members-gate-card > p {
+  margin: 0 0 28px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.members-gate-form {
+  display: grid;
+  gap: 12px;
+}
+
+.members-gate-form label {
+  color: #222;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.members-gate-form input {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  padding: 0 14px;
+  border: 1px solid #c8c8c8;
+  border-radius: 10px;
+  background: #fff;
+  color: #111;
+  font: inherit;
+}
+
+.members-gate-form input:focus-visible {
+  outline: 3px solid rgb(0 0 0 / 14%);
+  border-color: #555;
+}
+
+.members-gate-form button,
+.members-gate-card > button {
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid #111;
+  border-radius: 10px;
+  background: #111;
+  color: #fff;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 150ms ease, transform 150ms ease;
+}
+
+.members-gate-form button:hover:not(:disabled),
+.members-gate-card > button:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.members-gate-form button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.members-gate-form button:focus-visible,
+.members-gate-card > button:focus-visible {
+  outline: 3px solid rgb(0 0 0 / 25%);
+  outline-offset: 3px;
+}
+
+.members-gate-error {
+  margin: 0;
+  color: #8a1c1c;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  .members-gate-page {
+    min-height: 58vh;
+    padding: 32px 16px;
+  }
+
+  .members-gate-card {
+    border-radius: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .members-gate-form button,
+  .members-gate-card > button {
+    transition: none;
+  }
+}
+
+.members-layout {
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  padding: 12px 20px 112px;
+  box-sizing: border-box;
+  color: #111;
+}
+
+.members-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 12px 0 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dedede;
+}
+
+.members-header h1 {
+  margin: 4px 0 0;
+  color: #111;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+}
+
+.members-eyebrow {
+  margin: 0;
+  color: #666;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.members-logout {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid #aaa;
+  border-radius: 999px;
+  background: #fff;
+  color: #222;
+  font: inherit;
+  cursor: pointer;
+}
+
+.members-logout:hover:not(:disabled) {
+  border-color: #111;
+  background: #f2f2f2;
+}
+
+.members-logout:focus-visible,
+.members-floating-link:focus-visible {
+  outline: 3px solid rgb(0 0 0 / 28%);
+  outline-offset: 3px;
+}
+
+.members-logout:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.members-error {
+  color: #8a1c1c;
+}
+
+.members-page-content {
+  min-width: 0;
+}
+
+.members-floating-nav {
+  position: fixed;
+  z-index: 1000;
+  right: 50%;
+  bottom: 20px;
+  display: flex;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+  gap: 4px;
+  padding: 7px;
+  overflow-x: auto;
+  border: 1px solid #333;
+  border-radius: 999px;
+  background: #111;
+  box-shadow: 0 8px 28px rgb(0 0 0 / 22%);
+  transform: translateX(50%);
+  scrollbar-width: none;
+}
+
+.members-floating-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.members-floating-link {
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.members-floating-link:hover {
+  background: #333;
+}
+
+.members-floating-link.active {
+  background: #fff;
+  color: #111;
+}
+
+@media (max-width: 600px) {
+  .members-layout {
+    padding: 8px 16px 100px;
+  }
+
+  .members-header {
+    margin: 8px 0 28px;
+  }
+
+  .members-floating-nav {
+    bottom: 12px;
+    max-width: calc(100vw - 20px);
+  }
+
+  .members-floating-link {
+    padding: 11px 13px;
+    font-size: 0.84rem;
+  }
+}

@@ -102,7 +102,7 @@ function Navbar(): JSX.Element {
                 <li><Link to="/">HOME</Link></li>
                 <li><Link to="/about">ABOUT</Link></li>
                 <li><Link to="/details">DETAILS</Link></li>
-                <li><Link to="/blog">BLOG</Link></li>
+                <li><Link to="/members">MEMBERS</Link></li>
                 <li><Link to="/contact">CONTACT</Link></li>
             </ul>
 
@@ -132,7 +132,7 @@ function Navbar(): JSX.Element {
                     <li><Link to="/" onClick={closeMenu}>HOME</Link></li>
                     <li><Link to="/about" onClick={closeMenu}>ABOUT</Link></li>
                     <li><Link to="/details" onClick={closeMenu}>DETAILS</Link></li>
-                    <li><Link to="/blog" onClick={closeMenu}>BLOG</Link></li>
+                    <li><Link to="/members" onClick={closeMenu}>MEMBERS</Link></li>
                     <li><Link to="/contact" onClick={closeMenu}>CONTACT</Link></li>
                 </ul>
             </div>
