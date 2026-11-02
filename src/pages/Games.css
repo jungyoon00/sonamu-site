@@ -1,0 +1,166 @@
+.sonamu-game-page {
+  width: min(100% - 32px, 960px);
+  margin: 0 auto;
+  padding: 48px 0 80px;
+  color: #171717;
+}
+
+.sonamu-game-page > header {
+  margin-bottom: 28px;
+}
+
+.sonamu-game-page h2 {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 44px);
+  letter-spacing: -0.06em;
+}
+
+.sonamu-game-page > header > p:last-child {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.sonamu-game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 380px) minmax(220px, 1fr);
+  align-items: start;
+  gap: 24px;
+}
+
+.sonamu-game-board {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+}
+
+.sonamu-game-score {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.sonamu-game-score strong {
+  font-size: 24px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sonamu-game-board canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid #222;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+  touch-action: none;
+}
+
+.sonamu-game-over {
+  position: absolute;
+  inset: 42px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  border: 1px solid #222;
+  border-radius: 14px;
+  background: rgb(255 255 255 / 94%);
+  text-align: center;
+}
+
+.sonamu-game-over h3,
+.sonamu-game-over p {
+  margin: 0;
+}
+
+.sonamu-game-over label {
+  display: grid;
+  gap: 6px;
+  text-align: left;
+  font-size: 13px;
+}
+
+.sonamu-game-over input {
+  width: min(240px, 70vw);
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.sonamu-game-page button {
+  padding: 10px 14px;
+  border: 1px solid #171717;
+  border-radius: 8px;
+  background: #171717;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.sonamu-game-page button:hover:not(:disabled) {
+  background: #444;
+}
+
+.sonamu-game-page button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.sonamu-game-ranking {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.sonamu-game-ranking h3 {
+  margin: 0 0 14px;
+  font-size: 18px;
+}
+
+.sonamu-game-ranking ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sonamu-game-ranking li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.sonamu-game-ranking li:last-child {
+  border-bottom: 0;
+}
+
+.sonamu-game-ranking li strong {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 680px) {
+  .sonamu-game-page {
+    width: min(100% - 24px, 480px);
+    padding-top: 32px;
+  }
+
+  .sonamu-game-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sonamu-game-board {
+    margin: 0 auto;
+  }
+}

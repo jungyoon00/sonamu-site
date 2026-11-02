@@ -14,6 +14,7 @@ import './App.css';
 
 const SetLogs = lazy(() => import('./pages/SetLogs'));
 const SongMeeting = lazy(() => import('./pages/SongMeeting'));
+const Games = lazy(() => import('./pages/Games'));
 
 const About = lazy(() => import('./pages/About'));
 const Details = lazy(() => import('./pages/Details'));
@@ -67,7 +68,7 @@ function App(): JSX.Element {
               />
               <Route
                 path="games"
-                element={<MemberTemporaryPage title="미니게임" />}
+                element={<Games />}
               />
             </Route>
 
@@ -100,6 +101,7 @@ function App(): JSX.Element {
   );
 }
 
+/*
 function MemberTemporaryPage({ title }: { title: string }): JSX.Element {
   return (
     <section className="member-temporary-page">
@@ -108,6 +110,7 @@ function MemberTemporaryPage({ title }: { title: string }): JSX.Element {
     </section>
   );
 }
+*/
 
 function LegacyBlogEditRedirect(): JSX.Element {
   const { id } = useParams<{ id: string }>();
