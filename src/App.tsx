@@ -13,6 +13,7 @@ import NotFound from './pages/NotFound';
 import './App.css';
 
 const SetLogs = lazy(() => import('./pages/SetLogs'));
+const SongMeeting = lazy(() => import('./pages/SongMeeting'));
 
 const About = lazy(() => import('./pages/About'));
 const Details = lazy(() => import('./pages/Details'));
@@ -62,7 +63,7 @@ function App(): JSX.Element {
               />
               <Route
                 path="song-meeting"
-                element={<MemberTemporaryPage title="선곡회의" />}
+                element={<SongMeeting />}
               />
               <Route
                 path="games"
