@@ -27,6 +27,13 @@
   gap: 8px;
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
+  align-items: center;
+}
+
+.song-meeting-tab-actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .song-meeting-tabs button {
@@ -62,11 +69,11 @@
 
 .song-meeting-table th,
 .song-meeting-table td {
-  padding: 8px;
+  padding: 4px 6px;
   border-bottom: 1px solid #e5e5e5;
   border-right: 1px solid #eee;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .song-meeting-table th {
@@ -83,18 +90,21 @@
 .song-meeting-table textarea {
   width: 100%;
   min-width: 82px;
+  min-height: 30px;
   box-sizing: border-box;
-  padding: 8px;
-  border: 1px solid transparent;
+  padding: 5px 7px;
+  border: 1px solid #d5d5d5;
   border-radius: 6px;
-  background: transparent;
+  background: #fff;
   color: #171717;
   font: inherit;
+  line-height: 1.35;
 }
 
 .song-meeting-table textarea {
   min-width: 180px;
   min-height: 38px;
+  height: 32px;
   resize: vertical;
 }
 
@@ -103,12 +113,19 @@
   border-color: #ddd;
 }
 
-.song-meeting-table input:focus,
-.song-meeting-table textarea:focus {
+.song-meeting-table input:focus-visible,
+.song-meeting-table textarea:focus-visible {
   border-color: #171717;
   outline: 2px solid #171717;
   outline-offset: 1px;
   background: #fff;
+  box-shadow: 0 0 0 3px rgb(23 23 23 / 10%);
+}
+
+.song-meeting-table:not(.song-meeting-summary-table) th:last-child,
+.song-meeting-table:not(.song-meeting-summary-table) td:last-child {
+  width: 76px;
+  min-width: 76px;
 }
 
 .song-meeting-table tr.song-row-complete {
@@ -141,6 +158,51 @@
 .song-meeting-page > button:hover,
 .song-meeting-list li > button:hover {
   background: #444;
+}
+
+.song-meeting-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.song-meeting-icon-button {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  color: #171717;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.song-meeting-icon-button:hover {
+  border-color: #171717;
+  background: #f2f2f2;
+}
+
+.song-meeting-delete-button {
+  padding: 5px 7px;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  font-size: 11px;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.song-meeting-delete-button:hover {
+  border-color: #171717;
+  background: #f2f2f2;
 }
 
 .song-meeting-list {
@@ -196,6 +258,8 @@
   font-size: 13px;
   white-space: pre-wrap;
 }
+
+
 
 @media (max-width: 640px) {
   .song-meeting-page {

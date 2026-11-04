@@ -120,39 +120,12 @@
   color: #111;
 }
 
-.members-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin: 12px 0 36px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #dedede;
-}
-
-.members-header h1 {
-  margin: 4px 0 0;
-  color: #111;
-  font-size: clamp(1.5rem, 4vw, 2rem);
-}
-
 .members-eyebrow {
   margin: 0;
   color: #666;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.14em;
-}
-
-.members-logout {
-  min-height: 40px;
-  padding: 0 14px;
-  border: 1px solid #aaa;
-  border-radius: 999px;
-  background: #fff;
-  color: #222;
-  font: inherit;
-  cursor: pointer;
 }
 
 .members-logout:hover:not(:disabled) {
@@ -183,8 +156,9 @@
   position: fixed;
   z-index: 1000;
   right: 50%;
-  bottom: 20px;
+  bottom: calc(20px + env(safe-area-inset-bottom));
   display: flex;
+  align-items: center;
   width: max-content;
   max-width: calc(100vw - 32px);
   gap: 4px;
@@ -196,6 +170,35 @@
   box-shadow: 0 8px 28px rgb(0 0 0 / 22%);
   transform: translateX(50%);
   scrollbar-width: none;
+}
+
+.members-floating-logout {
+  flex: 0 0 auto;
+  padding: 12px 14px;
+  border: 0;
+  border-left: 1px solid #555;
+  border-radius: 0 999px 999px 0;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.members-floating-logout:hover:not(:disabled) {
+  background: #333;
+}
+
+.members-floating-logout:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.members-floating-logout:focus-visible {
+  outline: 3px solid rgb(255 255 255 / 70%);
+  outline-offset: 2px;
 }
 
 .members-floating-nav::-webkit-scrollbar {
@@ -227,17 +230,23 @@
     padding: 8px 16px 100px;
   }
 
-  .members-header {
-    margin: 8px 0 28px;
-  }
-
   .members-floating-nav {
-    bottom: 12px;
-    max-width: calc(100vw - 20px);
+    right: 10px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: 10px;
+    width: auto;
+    max-width: none;
+    justify-content: space-between;
+    transform: none;
   }
 
   .members-floating-link {
-    padding: 11px 13px;
-    font-size: 0.84rem;
+    padding: 9px 8px;
+    font-size: 0.75rem;
+  }
+
+  .members-floating-logout {
+    padding: 9px 8px;
+    font-size: 0.75rem;
   }
 }

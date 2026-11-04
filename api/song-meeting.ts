@@ -281,22 +281,53 @@ export async function DELETE(request: Request): Promise<Response> {
   if (authError) return authError;
 
   const body = await readBody(request);
-  if (!body || !isUuid(body.songId)) {
-    return json({ error: '삭제할 곡 정보가 올바르지 않습니다.' }, 400);
+  if (!body) {
+    return json({ error: '삭제 요청 형식이 올바르지 않습니다.' }, 400);
   }
 
   try {
-    const { error } = await getSupabaseAdmin()
-      .from('song_meeting_songs')
-      .delete()
-      .eq('id', body.songId);
+    const supabase = getSupabaseAdmin();
 
-    if (error) {
-      return json({ error: '곡을 삭제하지 못했습니다.' }, 500);
+    if (isUuid(body.songId)) {
+      const { error } = await supabase
+        .from('song_meeting_songs')
+        .delete()
+        .eq('id', body.songId);
+
+      if (error) {
+        return json({ error: '곡을 삭제하지 못했습니다.' }, 500);
+      }
+
+      return json({ success: true });
     }
 
-    return json({ success: true });
+    if (isUuid(body.tabId)) {
+      const { data: tabs, error: tabsError } = await supabase
+        .from('song_meeting_tabs')
+        .select('id');
+
+      if (tabsError) {
+        return json({ error: '탭 정보를 확인하지 못했습니다.' }, 500);
+      }
+
+      if ((tabs ?? []).length <= 1) {
+        return json({ error: '마지막 탭은 삭제할 수 없습니다.' }, 409);
+      }
+
+      const { error } = await supabase
+        .from('song_meeting_tabs')
+        .delete()
+        .eq('id', body.tabId);
+
+      if (error) {
+        return json({ error: '탭을 삭제하지 못했습니다.' }, 500);
+      }
+
+      return json({ success: true });
+    }
+
+    return json({ error: '삭제할 곡이나 탭 정보가 올바르지 않습니다.' }, 400);
   } catch {
-    return json({ error: '곡을 삭제하지 못했습니다.' }, 500);
+    return json({ error: '삭제를 완료하지 못했습니다.' }, 500);
   }
 }

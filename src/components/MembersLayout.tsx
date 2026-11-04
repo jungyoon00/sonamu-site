@@ -24,21 +24,6 @@ function MembersLayout() {
 
   return (
     <div className="members-layout">
-      <header className="members-header">
-        <div>
-          <p className="members-eyebrow">SONAMU MEMBERS</p>
-          <h1>부원 공간</h1>
-        </div>
-
-        <button
-          type="button"
-          className="members-logout"
-          onClick={handleLogout}
-          disabled={loggingOut}
-        >
-          {loggingOut ? '로그아웃 중...' : '로그아웃'}
-        </button>
-      </header>
 
       {error && (
         <p className="members-error" role="alert">
@@ -63,6 +48,15 @@ function MembersLayout() {
         <NavLink to="/members/games" className="members-floating-link">
           미니게임
         </NavLink>
+
+        <button
+          type='button'
+          className='members-floating-logout'
+          onClick={handleLogout}
+          disabled={loggingOut}
+        >
+          {loggingOut ? '로그아웃 중...' : '로그아웃'}
+        </button>
       </nav>
     </div>
   );

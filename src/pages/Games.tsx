@@ -7,6 +7,7 @@ import {
   type Body,
   type Engine as MatterEngine,
 } from 'matter-js';
+
 import sonamuLogo from '../assets/sonamu_logo.png';
 import { fetchGameRankings, submitGameScore } from '../api/sonamuGame';
 import type { GameRanking } from '../api/sonamuGame';
@@ -17,6 +18,15 @@ const HEIGHT = 560;
 const DROP_LINE = 112;
 const RADII = [18, 25, 33, 43, 55, 69, 86];
 const MAX_LEVEL = RADII.length - 1;
+const STAGE_FILLS = [
+  '#ffffff',
+  '#f0f0f0',
+  '#e2e2e2',
+  '#d2d2d2',
+  '#c0c0c0',
+  '#adadad',
+  '#999999',
+];
 
 function getLevel(body: Body): number {
   return Number(body.plugin.sonamuLevel ?? 0);
@@ -78,6 +88,24 @@ function Games() {
     const logo = new Image();
     logo.src = sonamuLogo;
 
+    function drawLogo(centerX: number, centerY: number, maxSize: number) {
+      if (!logo.complete || logo.naturalWidth === 0 || logo.naturalHeight === 0) {
+        return;
+      }
+
+      const aspectRatio = logo.naturalWidth / logo.naturalHeight;
+      const width = aspectRatio >= 1 ? maxSize : maxSize * aspectRatio;
+      const height = aspectRatio >= 1 ? maxSize / aspectRatio : maxSize;
+
+      ctx.drawImage(
+        logo,
+        centerX - width / 2,
+        centerY - height / 2,
+        width,
+        height
+      );
+    }
+
     let animationFrame = 0;
     let dropX = WIDTH / 2;
     let nextLevel = 0;
@@ -102,6 +130,7 @@ function Games() {
     function updateScore(amount: number) {
       scoreRef.current += amount;
       setScore(scoreRef.current);
+      setSaved(false);
     }
 
     function isInWorld(body: Body) {
@@ -166,43 +195,29 @@ function Games() {
       if (!gameOverRef.current) {
         const previewRadius = RADII[nextLevel];
         ctx.globalAlpha = 0.45;
-        if (logo.complete && logo.naturalWidth > 0) {
-          ctx.drawImage(
-            logo,
-            dropX - previewRadius,
-            42 - previewRadius,
-            previewRadius * 2,
-            previewRadius * 2
-          );
-        }
+        drawLogo(dropX, 42, previewRadius * 1.44);
         ctx.globalAlpha = 1;
       }
 
       for (const body of Composite.allBodies(engine.world)) {
         if (body.isStatic) continue;
 
-        const radius = RADII[getLevel(body)];
+        const level = getLevel(body);
+        const radius = RADII[level];
+
         ctx.save();
         ctx.translate(body.position.x, body.position.y);
         ctx.rotate(body.angle);
 
-        ctx.fillStyle = '#fff';
+        ctx.fillStyle = STAGE_FILLS[level] ?? '#ffffff';
         ctx.strokeStyle = '#222';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2 + level * 0.45;
         ctx.beginPath();
         ctx.arc(0, 0, radius, 0, Math.PI * 2);
         ctx.fill();
         ctx.stroke();
 
-        if (logo.complete && logo.naturalWidth > 0) {
-          ctx.drawImage(
-            logo,
-            -radius * 0.72,
-            -radius * 0.72,
-            radius * 1.44,
-            radius * 1.44
-          );
-        }
+        drawLogo(0, 0, radius * 1.44);
 
         ctx.restore();
       }
@@ -240,28 +255,35 @@ function Games() {
 
     loop();
 
-    function handlePointerMove(event: PointerEvent) {
+    function getDropX(event: PointerEvent): number {
       const target = event.currentTarget;
 
-      if (!(target instanceof HTMLCanvasElement)) return;
+      if (!(target instanceof HTMLCanvasElement)) {
+        return dropX;
+      }
 
       const rect = target.getBoundingClientRect();
-      const scaleX = WIDTH / rect.width;
-      dropX = Math.max(
+      const scaleX = WIDTH / target.clientWidth;
+      const contentX = event.clientX - rect.left - target.clientLeft;
+
+      return Math.max(
         RADII[0] + 4,
-        Math.min(WIDTH - RADII[0] - 4, (event.clientX - rect.left) * scaleX)
+        Math.min(WIDTH - RADII[0] - 4, contentX * scaleX)
       );
     }
 
-    function handlePointerDown() {
+    function handlePointerMove(event: PointerEvent) {
+      dropX = getDropX(event);
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      event.preventDefault();
       if (gameOverRef.current) return;
 
-      Composite.add(
-        engine.world,
-        makeFruit(dropX, 75, nextLevel)
-      );
-      nextLevel =
-        Math.random() < 0.75 ? 0 : Math.min(1, MAX_LEVEL);
+      dropX = getDropX(event);
+
+      Composite.add(engine.world, makeFruit(dropX, 75, nextLevel));
+      nextLevel = Math.random() < 0.75 ? 0 : Math.min(1, MAX_LEVEL);
     }
 
     canvas.addEventListener('pointermove', handlePointerMove);
@@ -342,27 +364,9 @@ function Games() {
             <div className="sonamu-game-over">
               <h3>게임 종료</h3>
               <p>최종 점수: {score}</p>
-              {saved ? (
-                <p>기록을 저장했습니다.</p>
-              ) : (
-                <div>
-                  <label>
-                    기록할 이름
-                    <input
-                      value={playerName}
-                      maxLength={20}
-                      onChange={(event) => setPlayerName(event.target.value)}
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    disabled={saving}
-                    onClick={() => void saveScore()}
-                  >
-                    {saving ? '저장 중...' : '점수 저장'}
-                  </button>
-                </div>
-              )}
+              {saved
+                ? '기록을 저장했습니다.'
+                : '현재 점수는 오른쪽 랭킹 패널에서 등록할 수 있습니다.'}
               <button type="button" onClick={restart}>
                 다시 하기
               </button>
@@ -371,6 +375,29 @@ function Games() {
         </div>
 
         <aside className="sonamu-game-ranking">
+          <div className="sonamu-game-record-controls">
+            <label htmlFor="sonamu-game-player-name">기록할 이름</label>
+            <input
+              id="sonamu-game-player-name"
+              value={playerName}
+              maxLength={20}
+              onChange={(event) => setPlayerName(event.target.value)}
+              placeholder="이름을 입력하세요"
+            />
+            <button
+              type="button"
+              disabled={saving || saved}
+              onClick={() => void saveScore()}
+            >
+              {saving
+                ? '저장 중...'
+                : saved
+                  ? '현재 점수 등록됨'
+                  : gameOver
+                    ? '최종 점수 등록'
+                    : '현재 점수 등록'}
+            </button>
+          </div>
           <h3>랭킹 TOP 5</h3>
           {rankings.length === 0 ? (
             <p>아직 기록이 없습니다.</p>

@@ -160,3 +160,10 @@ export async function deleteSongMeetingSong(songId: string): Promise<void> {
     body: JSON.stringify({ songId }),
   });
 }
+
+export async function deleteSongMeetingTab(tabId: string): Promise<void> {
+  await requestJson<{ success: boolean }>('/api/song-meeting', {
+    method: 'DELETE',
+    body: JSON.stringify({ tabId }),
+  });
+}

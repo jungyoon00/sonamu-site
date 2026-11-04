@@ -150,6 +150,41 @@
   font-variant-numeric: tabular-nums;
 }
 
+.sonamu-game-record-controls {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.sonamu-game-record-controls label {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sonamu-game-record-controls input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.sonamu-game-record-controls input:focus-visible {
+  border-color: #171717;
+  outline: 2px solid #171717;
+  outline-offset: 1px;
+}
+
+.sonamu-game-record-controls button {
+  width: 100%;
+}
+
+.sonamu-game-record-controls button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 @media (max-width: 680px) {
   .sonamu-game-page {
     width: min(100% - 24px, 480px);

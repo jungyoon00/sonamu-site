@@ -136,25 +136,30 @@ function SongMeeting() {
             />
           </td>
 
-          <td className="song-meeting-actions">
-            <button
-              type="button"
-              onClick={() =>
-                void runAction(() => meeting.toggleReview(song))
-              }
-            >
-              {song.promoted_to_review ? '검토 후보 해제' : '검토 후보로 올리기'}
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                if (window.confirm('이 곡을 삭제할까요?')) {
-                  void runAction(() => meeting.removeSong(song.id));
-                }
-              }}
-            >
-              삭제
-            </button>
+          <td>
+            <div className="song-meeting-action-buttons">
+              <button
+                className="song-meeting-icon-button"
+                type="button"
+                title={song.promoted_to_review ? '검토 후보에서 내리기' : '검토 후보로 올리기'}
+                aria-label={song.promoted_to_review ? '검토 후보에서 내리기' : '검토 후보로 올리기'}
+                onClick={() => void runAction(() => meeting.toggleReview(song))}
+              >
+                {song.promoted_to_review ? '↑' : '↓'}
+              </button>
+
+              <button
+                className="song-meeting-delete-button"
+                type="button"
+                onClick={() => {
+                  if (window.confirm('이 곡을 DB에서도 삭제할까요?')) {
+                    void runAction(() => meeting.removeSong(song.id));
+                  }
+                }}
+              >
+                삭제
+              </button>
+            </div>
           </td>
         </tr>
       );
@@ -245,6 +250,50 @@ function SongMeeting() {
     }
   }
 
+  function exportCurrentTabCsv() {
+    const tab = meeting.activeTab;
+    if (!tab) return;
+
+    const headers = [
+      ...TEXT_FIELDS.map(({ label }) => label),
+      ...SESSION_FIELDS.map(({ label }) => label),
+      '자유 의견',
+       '검토 후보',
+      '최종 확정',
+    ];
+
+    function escapeCsvCell(value: unknown): string {
+      return `"${String(value ?? '').replaceAll('"', '""')}"`;
+    }
+
+    const rows = songs.map((song) => [
+      ...TEXT_FIELDS.map(({ field }) => song[field] ?? ''),
+      ...SESSION_FIELDS.map(({ field }) => song[field] ?? ''),
+      song.free_opinion ?? '',
+      song.promoted_to_review ? 'TRUE' : 'FALSE',
+      song.is_confirmed ? 'TRUE' : 'FALSE',
+    ]);
+
+    const csv = '\uFEFF' +
+      [headers, ...rows]
+        .map((row) => row.map(escapeCsvCell).join(','))
+        .join('\r\n');
+
+    const blobUrl = URL.createObjectURL(
+      new Blob([csv], { type: 'text/csv;charset=utf-8' })
+    );
+    const link = document.createElement('a');
+    const safeTabName = tab.name.replace(/[\\/:*?"<>|]/g, '_');
+
+    link.href = blobUrl;
+    link.download = `선곡회의_${safeTabName}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.setTimeout(() => URL.revokeObjectURL(blobUrl), 0);
+  }
+
   return (
     <section className="song-meeting-page">
       <header className="song-meeting-heading">
@@ -267,6 +316,34 @@ function SongMeeting() {
         <button type="button" onClick={() => void addTab()}>
           + 탭 추가
         </button>
+        <div className="song-meeting-tab-actions">
+          <button
+            type="button"
+            disabled={!meeting.activeTab}
+            onClick={exportCurrentTabCsv}
+          >
+            CSV 내보내기
+          </button>
+
+          <button
+            type="button"
+            disabled={!meeting.activeTab || meeting.tabs.length <= 1}
+            onClick={() => {
+              const tab = meeting.activeTab;
+              if (!tab) return;
+
+              if (
+                window.confirm(
+                `'${tab.name}' 탭과 그 안의 곡들을 모두 삭제할까요?`
+                )
+              ) {
+                void runAction(() => meeting.removeTab(tab.id));
+              }
+            }}
+          >
+            탭 삭제
+          </button>
+        </div>
       </nav>
 
       {meeting.error && (

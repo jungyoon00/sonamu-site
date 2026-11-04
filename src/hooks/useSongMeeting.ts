@@ -7,6 +7,7 @@ import {
   setSongConfirmed,
   setSongReview,
   updateSongField,
+  deleteSongMeetingTab,
 } from '../api/songMeeting';
 import type {
   SongField,
@@ -88,6 +89,20 @@ export function useSongMeeting() {
       setLoading(false);
     }
   }, []);
+
+  const removeTab = useCallback(
+    async (tabId: string) => {
+      await deleteSongMeetingTab(tabId);
+
+      const remainingTabs = tabs.filter((tab) => tab.id !== tabId);
+      setTabs(remainingTabs);
+
+      if (activeTabId === tabId) {
+        setActiveTabId(remainingTabs[0]?.id ?? '');
+      }
+    },
+    [activeTabId, tabs]
+  );
 
   useEffect(() => {
     const initialTimer = window.setTimeout(() => {
@@ -228,5 +243,6 @@ export function useSongMeeting() {
     toggleReview,
     toggleConfirmed,
     removeSong,
+    removeTab,
   };
 }
