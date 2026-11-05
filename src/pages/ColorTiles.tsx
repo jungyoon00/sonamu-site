@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   fetchColorTilesRankings,
   submitColorTilesScore,
@@ -92,6 +92,11 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [fallingTiles, setFallingTiles] = useState<number[]>([]);
+  const [animating, setAnimating] = useState(false);
+
+  const animationTimer = useRef<number | null>(null);
+  const timePercent = (secondsLeft / START_SECONDS) * 100;
 
   useEffect(() => {
     let active = true;
@@ -124,8 +129,16 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
     return () => window.clearTimeout(timer);
   }, [phase, secondsLeft]);
 
+  useEffect(() => {
+    return () => {
+      if (animationTimer.current !== null) {
+        window.clearTimeout(animationTimer.current);
+      }
+    };
+  }, []);
+
   function tapCell(index: number) {
-    if (phase !== 'playing' && phase !== 'overtime') return;
+    if (animating || (phase !== 'playing' && phase !== 'overtime')) return;
     if (board[index] !== null) return;
 
     const nearest = getNearestTiles(board, index);
@@ -153,23 +166,45 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
       return;
     }
 
-    const nextBoard = [...board];
-    matched.forEach((tileIndex) => {
-      nextBoard[tileIndex] = null;
-    });
-    setBoard(nextBoard);
+    const remainingTiles = board.reduce(
+      (count, cell, cellIndex) =>
+        count + (cell !== null && !matched.includes(cellIndex) ? 1 : 0),
+      0
+    );
+
+    setAnimating(true);
+    setFallingTiles(matched);
 
     if (phase === 'playing') {
       setScore((current) => current + matched.length);
       setSaved(false);
     }
 
-    if (nextBoard.every((cell) => cell === null)) {
-      setPhase('complete');
-    }
+    animationTimer.current = window.setTimeout(() => {
+      setBoard((current) =>
+        current.map((cell, cellIndex) =>
+          matched.includes(cellIndex) ? null : cell
+        )
+      );
+
+      setFallingTiles([]);
+      setAnimating(false);
+      animationTimer.current = null;
+
+      if (remainingTiles === 0) {
+        setPhase('complete');
+      }
+    }, 520);
   }
 
   function restart() {
+    if (animationTimer.current !== null) {
+      window.clearTimeout(animationTimer.current);
+      animationTimer.current = null;
+    }
+
+    setFallingTiles([]);
+    setAnimating(false);
     setBoard(createBoard());
     setScore(0);
     setSecondsLeft(START_SECONDS);
@@ -219,7 +254,9 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
       <div className="color-tiles-layout">
         <div className="color-tiles-game">
           <div className="color-tiles-status">
-            <span>점수 <strong>{score}</strong></span>
+            <span>
+              점수 <strong>{score}</strong>
+            </span>
             <span>
               {phase === 'overtime'
                 ? '시간 종료 후 계속 플레이'
@@ -227,14 +264,41 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
             </span>
           </div>
 
-          <div className="color-tiles-board" role="group" aria-label="Color Tiles 보드">
+          <div
+            className="color-tiles-timebar"
+            role="progressbar"
+            aria-label="남은 시간"
+            aria-valuemin={0}
+            aria-valuemax={START_SECONDS}
+            aria-valuenow={secondsLeft}
+          >
+            <div
+              className={`color-tiles-timebar-fill ${
+                secondsLeft <= 20 ? 'is-low' : ''
+              }`}
+              style={{ width: `${timePercent}%` }}
+            />
+          </div>
+
+          <div
+            className="color-tiles-board"
+            role="group"
+            aria-label="Color Tiles 보드"
+          >
             {board.map((color, index) => (
               <button
                 key={index}
                 type="button"
-                className={`color-tile ${color ? `tile-${color}` : 'tile-empty'}`}
+                className={[
+                  'color-tile',
+                  color ? `tile-${color}` : 'tile-empty',
+                  fallingTiles.includes(index) ? 'is-falling' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 disabled={
                   color !== null ||
+                  animating ||
                   (phase !== 'playing' && phase !== 'overtime')
                 }
                 aria-label={
@@ -243,9 +307,7 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
                     : `빈칸 ${index + 1}`
                 }
                 onClick={() => tapCell(index)}
-              >
-                {color ? COLOR_LABELS[color].slice(0, 1) : ''}
-              </button>
+              />
             ))}
           </div>
 
@@ -275,8 +337,16 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
               onChange={(event) => setPlayerName(event.target.value)}
               placeholder="이름을 입력하세요"
             />
-            <button type="button" disabled={saving || saved} onClick={() => void saveScore()}>
-              {saving ? '저장 중...' : saved ? '현재 점수 등록됨' : '현재 점수 등록'}
+            <button
+              type="button"
+              disabled={saving || saved}
+              onClick={() => void saveScore()}
+            >
+              {saving
+                ? '저장 중...'
+                : saved
+                  ? '현재 점수 등록됨'
+                  : '현재 점수 등록'}
             </button>
           </div>
 
@@ -287,7 +357,9 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
             <ol>
               {rankings.map((row) => (
                 <li key={row.rank}>
-                  <span>{row.rank}. {row.playerName}</span>
+                  <span>
+                    {row.rank}. {row.playerName}
+                  </span>
                   <strong>{row.score}</strong>
                 </li>
               ))}
@@ -296,7 +368,11 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
         </aside>
       </div>
 
-      {error && <p className="members-error" role="alert">{error}</p>}
+      {error && (
+        <p className="members-error" role="alert">
+          {error}
+        </p>
+      )}
     </section>
   );
 }
