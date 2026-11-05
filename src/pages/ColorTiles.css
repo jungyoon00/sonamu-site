@@ -251,3 +251,14 @@
     border-radius: 2px;
   }
 }
+
+.tile-red { background: #ef7776; }
+.tile-orange { background: #f3a465; }
+.tile-yellow { background: #f6db61; }
+.tile-lime { background: #b2d866; }
+.tile-green { background: #63bd80; }
+.tile-cyan { background: #63c9c7; }
+.tile-blue { background: #699ce8; }
+.tile-purple { background: #a084d8; }
+.tile-magenta { background: #d66bb3; }
+.tile-pink { background: #f39bb7; }

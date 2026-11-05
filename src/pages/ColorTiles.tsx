@@ -9,24 +9,45 @@ import './ColorTiles.css';
 const ROWS = 12;
 const COLS = 20;
 const TILE_COUNT = 200;
+const TILES_PER_COLOR = 20;
 const START_SECONDS = 120;
-const COLORS = ['coral', 'blue', 'green', 'yellow', 'purple'] as const;
+
+const COLORS = [
+  'red',
+  'orange',
+  'yellow',
+  'lime',
+  'green',
+  'cyan',
+  'blue',
+  'purple',
+  'magenta',
+  'pink',
+] as const;
 
 type TileColor = (typeof COLORS)[number];
 type Cell = TileColor | null;
 type Phase = 'playing' | 'time-up' | 'overtime' | 'complete';
 
 const COLOR_LABELS: Record<TileColor, string> = {
-  coral: '빨강',
-  blue: '파랑',
-  green: '초록',
+  red: '빨강',
+  orange: '주황',
   yellow: '노랑',
+  lime: '라임',
+  green: '초록',
+  cyan: '시안',
+  blue: '파랑',
   purple: '보라',
+  magenta: '마젠타',
+  pink: '분홍',
 };
 
 function createBoard(): Cell[] {
   const cells: Cell[] = Array(ROWS * COLS).fill(null);
   const positions = Array.from({ length: cells.length }, (_, index) => index);
+  const tiles: TileColor[] = COLORS.flatMap((color) =>
+    Array<TileColor>(TILES_PER_COLOR).fill(color)
+  );
 
   for (let index = positions.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
@@ -36,8 +57,16 @@ function createBoard(): Cell[] {
     ];
   }
 
-  positions.slice(0, TILE_COUNT).forEach((position) => {
-    cells[position] = COLORS[Math.floor(Math.random() * COLORS.length)];
+  for (let index = tiles.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [tiles[index], tiles[randomIndex]] = [
+      tiles[randomIndex],
+      tiles[index],
+    ];
+  }
+
+  positions.slice(0, TILE_COUNT).forEach((position, index) => {
+    cells[position] = tiles[index];
   });
 
   return cells;
@@ -315,6 +344,11 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
             <div className="color-tiles-result" role="status">
               <h3>{phase === 'complete' ? '모든 타일 획득!' : '시간 종료'}</h3>
               <p>점수: {score}</p>
+              {phase === 'time-up' && (
+                <button type="button" onClick={() => setPhase('overtime')}>
+                  점수 확정 후 계속 플레이
+                </button>
+              )}
               <button type="button" onClick={restart}>
                 다시 하기
               </button>
