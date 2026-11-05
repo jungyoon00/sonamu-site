@@ -315,11 +315,6 @@ function ColorTiles({ onBack }: { onBack: () => void }) {
             <div className="color-tiles-result" role="status">
               <h3>{phase === 'complete' ? '모든 타일 획득!' : '시간 종료'}</h3>
               <p>점수: {score}</p>
-              {phase === 'time-up' && (
-                <button type="button" onClick={() => setPhase('overtime')}>
-                  점수 확정 후 계속 플레이
-                </button>
-              )}
               <button type="button" onClick={restart}>
                 다시 하기
               </button>
