@@ -1,0 +1,80 @@
+.games-hub {
+  width: min(100% - 32px, 960px);
+  margin: 0 auto;
+  padding: 48px 0 80px;
+  color: #171717;
+}
+
+.games-hub > header {
+  margin-bottom: 28px;
+}
+
+.games-hub h2 {
+  margin: 0;
+  font-size: clamp(30px, 5vw, 44px);
+  letter-spacing: -0.06em;
+}
+
+.games-hub > header > p:last-child {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.games-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.games-hub-card {
+  display: grid;
+  gap: 12px;
+  min-height: 190px;
+  padding: 22px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background: #fff;
+  color: #171717;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.games-hub-card:hover {
+  transform: translateY(-2px);
+  border-color: #171717;
+}
+
+.games-hub-card strong {
+  font-size: 20px;
+}
+
+.games-hub-card span {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.games-hub-card .games-hub-card-action {
+  align-self: end;
+  color: #171717;
+  font-weight: 700;
+}
+
+.games-hub-card:focus-visible {
+  outline: 3px solid #171717;
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .games-hub {
+    width: min(100% - 24px, 480px);
+    padding-top: 32px;
+  }
+
+  .games-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}
