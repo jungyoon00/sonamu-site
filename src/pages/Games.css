@@ -185,6 +185,41 @@
   cursor: not-allowed;
 }
 
+.sonamu-game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sonamu-game-hud .sonamu-game-score {
+  flex: 1;
+  margin: 0;
+}
+
+.sonamu-game-next {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 8px;
+  min-width: 92px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.sonamu-game-next > span {
+  color: #666;
+  font-size: 12px;
+}
+
+.sonamu-game-next > strong {
+  font-size: 28px;
+  line-height: 1;
+}
+
 @media (max-width: 680px) {
   .sonamu-game-page {
     width: min(100% - 24px, 480px);
