@@ -199,11 +199,10 @@
 }
 
 .sonamu-game-next {
-  display: grid;
-  grid-template-columns: auto auto;
+  display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 92px;
+  min-width: 126px;
   padding: 6px 10px;
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -213,11 +212,13 @@
 .sonamu-game-next > span {
   color: #666;
   font-size: 12px;
+  white-space: nowrap;
 }
 
-.sonamu-game-next > strong {
-  font-size: 28px;
-  line-height: 1;
+.sonamu-game-next > img {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
 }
 
 @media (max-width: 680px) {
